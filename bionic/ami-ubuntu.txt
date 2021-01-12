@@ -1,0 +1,1 @@
+ami-060abf0d4b5e9957e - ubuntu 18:04 64b

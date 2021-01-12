@@ -1,0 +1,20 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/bionic64"
+  config.vm.network "public_network", ip: "192.168.0.117"
+  config.vm.network "forwarded_port", guest: 8888, host: 8888
+  config.vm.synced_folder "." , "/vagrant"
+  config.vm.synced_folder "./configs", "/configs"
+  config.vm.provision "shell", inline: "apt update && apt install apache2 puppet -y"
+
+  config.vm.provision "puppet" do |puppet|
+    puppet.manifests_path = ["vm", "/vagrant/configs/manifests"]
+    puppet.manifest_file = "lamp.pp"
+  end
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 512  
+    v.cpus = 2
+    v.name = "teste_vagrant"
+  end
+
+end
